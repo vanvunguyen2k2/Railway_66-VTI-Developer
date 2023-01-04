@@ -1,42 +1,45 @@
--- Author: Nguyen Van Vu
--- sql assignment 2
+-- AUTHOR: NGUYEN VAN VU
+-- SQL ASSIGNMENT 2
 
--- Exer 1 Design a table
-drop database if exists `fresher_database`;
-create database `fresher_database`;
-use `fresher_database`;
-create table `Trainee` (
-	TraineeID int unsigned primary key auto_increment,
-    Full_Name char (20) not null,
-    Birth_Date datetime default now(),
-    Gender enum ('male', 'female', 'unknown'),
-    ET_IQ tinyint not null,
-    ET_Gmath tinyint not null,
-    ET_English tinyint not null,
-    Training_Class tinyint not null,
-    Evaluation_Notes varchar (5),
-    VTI_Account varchar(20) not null unique
+-- EXER 1 DESIGN A TABLE
+DROP DATABASE IF EXISTS `FRESHER_DATABASE`;
+CREATE DATABASE `FRESHER_DATABASE`;
+USE `FRESHER_DATABASE`;
+CREATE TABLE `TRAINEE` (
+	TRAINEEID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    FULL_NAME CHAR (20) NOT NULL,
+    BIRTH_DATE DATE,
+    GENDER ENUM ('MALE', 'FEMALE', 'UNKNOWN'),
+    ET_IQ TINYINT NOT NULL check(ET_IQ <=0 and ET_IQ >=20),
+    ET_GMATH TINYINT unsigned NULL check(ET_GMATH >= 18),
+    ET_ENGLISH TINYINT NOT NULL check(ET_ENGLISH >= 30),
+    TRAINING_CLASS char(10) NOT NULL,
+    EVALUATION_NOTES text
+);
+ALTER TABLE `TRAINEE`
+ADD column VTI_Account varchar(20) not null unique;
+
+-- EXER 2 DATA TYPES
+DROP DATABASE IF EXISTS `SQL ASSIGNMENT 2`;
+CREATE DATABASE `SQL ASSIGNMENT 2`;
+USE `SQL ASSIGNMENT 2`;
+CREATE TABLE `DATA TYPES 1`(
+	ID INT  UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    NAME VARCHAR(20) NOT NULL UNIQUE,
+    CODE CHAR(5) NOT NULL UNIQUE,
+    MODIFIEDDATE DATETIME DEFAULT NOW()
 );
 
--- Exer 2 Data Types
-drop database if exists `sql assignment 2`;
-create database `sql assignment 2`;
-use `sql assignment 2`;
-create table `Data types 1`(
-	ID int  unsigned primary key auto_increment,
-    Name varchar(20) not null unique,
-    Code char(5) not null unique,
-    ModifiedDate datetime default now()
+-- EXER 3 DATA TYPES 2
+DROP DATABASE IF EXISTS `SQL ASSIGNMENT 3`;
+CREATE DATABASE `SQL ASSIGNMENT 3`;
+USE `SQL ASSIGNMENT 3`;
+CREATE TABLE `DATA TYPES 2` (
+	ID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    NAME CHAR(10) NOT NULL UNIQUE,
+    BIRTHDATE DATETIME DEFAULT NOW() NOT NULL,
+    GENDER bit,
+    ISDELETEDFLAG bit not null unique
 );
 
--- Exer 3 Data Types 2
-drop database if exists `sql assignment 3`;
-create database `sql assignment 3`;
-use `sql assignment 3`;
-create table `Data types 2` (
-	ID int unsigned primary key auto_increment,
-    Name char(10) not null unique,
-    BirthDate datetime default now() not null,
-    Gender bit,
-    IsDeletedFlag bit
-);
+

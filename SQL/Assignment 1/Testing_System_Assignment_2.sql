@@ -1,176 +1,178 @@
--- testing_system_assignmen_2
--- author: Nguyen Van Vu
+-- TESTING_SYSTEM_ASSIGNMEN_2
+-- AUTHOR: NGUYEN VAN VU
 
--- questions 1 + 2
-drop database if exists `testing_system_assignmen_1`;
-create database `testing_system_assignmen_1`;
-use `testing_system_assignmen_1`;
+-- QUESTIONS 1 + 2
+DROP DATABASE IF EXISTS `TESTING_SYSTEM_ASSIGNMEN_1`;
+CREATE DATABASE `TESTING_SYSTEM_ASSIGNMEN_1`;
+USE `TESTING_SYSTEM_ASSIGNMEN_1`;
 
-CREATE TABLE `Department` (
-	DepartmentID int unsigned auto_increment primary key,
-    DepartmentName nvarchar(500) not null
+CREATE TABLE `DEPARTMENT` (
+	DEPARTMENTID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    DEPARTMENTNAME NVARCHAR(500) NOT NULL
 );
 
-create table `Position` (
-	PositionID int unsigned auto_increment primary key,
-    PositionName enum ('Dev', 'Test', 'Scrum Master', 'PM')
+CREATE TABLE `POSITION` (
+	POSITIONID INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    POSITIONNAME ENUM ('DEV', 'TEST', 'SCRUM MASTER', 'PM')
 	);
     
-    create table `Account`(
-		AccountID int unsigned primary key,
-        Email char(50) not null unique key,
-        Username nvarchar(50) not null,
-        FullName nvarchar(50) not null,
-        DepartmentID int unsigned not null,
-        PositionID int unsigned not null,
-        CreateDate datetime default now(),
-        foreign key(DepartmentID) references Department(DepartmentID),
-		foreign key(PositionID) references `Position`(PositionID)
+    CREATE TABLE `ACCOUNT`(
+		ACCOUNTID INT UNSIGNED PRIMARY KEY,
+        EMAIL CHAR(50) NOT NULL UNIQUE KEY,
+        USERNAME NVARCHAR(50) NOT NULL,
+        FULLNAME NVARCHAR(50) NOT NULL,
+        DEPARTMENTID INT UNSIGNED NOT NULL,
+        POSITIONID INT UNSIGNED NOT NULL,
+        CREATEDATE DATETIME DEFAULT NOW(),
+        FOREIGN KEY(DEPARTMENTID) REFERENCES DEPARTMENT(DEPARTMENTID),
+		FOREIGN KEY(POSITIONID) REFERENCES `POSITION`(POSITIONID)
 );
 
- create table `Group`(
-	GroupID int unsigned primary key auto_increment,
-    GroupName varchar(50) not null,
-    CreatorID int unsigned,
-    CreateDate datetime default now(),
-    foreign key(CreatorID) references Account(AccountID)
+ CREATE TABLE `GROUP`(
+	GROUPID INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    GROUPNAME VARCHAR(50) NOT NULL,
+    CREATORID INT UNSIGNED,
+    CREATEDATE DATETIME DEFAULT NOW(),
+    FOREIGN KEY(CREATORID) REFERENCES ACCOUNT(ACCOUNTID)
     
  );
 
-create table `GroupAccount`(
-	GroupID int unsigned not null,
-    AccountID int unsigned not null,
-    JoinDate datetime default now(),
-    primary key (GroupID,AccountID),
-    foreign key(GroupID) references `Group`(GroupID),
-    foreign key(AccountID) references `Account`(AccountID)
+CREATE TABLE `GROUPACCOUNT`(
+	GROUPID INT UNSIGNED NOT NULL,
+    ACCOUNTID INT UNSIGNED NOT NULL,
+    JOINDATE DATETIME DEFAULT NOW(),
+    PRIMARY KEY (GROUPID,ACCOUNTID),
+    FOREIGN KEY(GROUPID) REFERENCES `GROUP`(GROUPID),
+    FOREIGN KEY(ACCOUNTID) REFERENCES `ACCOUNT`(ACCOUNTID)
     
 );
 
-create table `TypeQuestion`(
-	TypeID int unsigned primary key,
-    TypeName char(50) not null
+CREATE TABLE `TYPEQUESTION`(
+	TYPEID INT UNSIGNED PRIMARY KEY,
+    TYPENAME CHAR(50) NOT NULL
 );
 
-create table `CategoryQuestion`(
-	CategoryID int  unsigned primary key,
-    CategoryName char(50) not null
+CREATE TABLE `CATEGORYQUESTION`(
+	CATEGORYID INT  UNSIGNED PRIMARY KEY,
+    CATEGORYNAME CHAR(50) NOT NULL
 );
 
-create table `Question`(
-	QuestionID int unsigned primary key,
-    Content char(100) not null,
-    CategoryID int unsigned not null,
-    TypeID int unsigned not null,
-    CreatorID int unsigned not null,
-    CreateDate datetime default now(),
-    foreign key (CategoryID) references CategoryQuestion(CategoryID),
-    foreign key (TypeID) references TypeQuestion(TypeID),
-    foreign key (CreatorID) references Account(AccountID)
+CREATE TABLE `QUESTION`(
+	QUESTIONID INT UNSIGNED PRIMARY KEY,
+    CONTENT CHAR(100) NOT NULL,
+    CATEGORYID INT UNSIGNED NOT NULL,
+    TYPEID INT UNSIGNED NOT NULL,
+    CREATORID INT UNSIGNED NOT NULL,
+    CREATEDATE DATETIME DEFAULT NOW(),
+    FOREIGN KEY (CATEGORYID) REFERENCES CATEGORYQUESTION(CATEGORYID),
+    FOREIGN KEY (TYPEID) REFERENCES TYPEQUESTION(TYPEID),
+    FOREIGN KEY (CREATORID) REFERENCES ACCOUNT(ACCOUNTID)
 );
 
-create table `Answer`(
-	AnswerID int unsigned primary key,
-    Content char(50) not null,
-    QuestionID int unsigned not null,
-    isCorrect bit default 1,
-    foreign key(QuestionID) references Question(QuestionID)
+CREATE TABLE `ANSWER`(
+	ANSWERID INT UNSIGNED PRIMARY KEY,
+    CONTENT CHAR(50) NOT NULL,
+    QUESTIONID INT UNSIGNED NOT NULL,
+    ISCORRECT BIT DEFAULT 1,
+    FOREIGN KEY(QUESTIONID) REFERENCES QUESTION(QUESTIONID)
 );
 
- create table `Exam`(
-	ExamID int unsigned primary key,
-    Code char(50) not null,
-    Title char(50) not null,
-    CategoryID int unsigned not null,
-    Duration int unsigned not null,
-    CreatorID int unsigned not null,
-    CreateDate datetime default now(),
-    foreign key(CategoryID) references CategoryQuestion(CategoryID),
-	foreign key(CreatorID) references Account(AccountID)
+ CREATE TABLE `EXAM`(
+	EXAMID INT UNSIGNED PRIMARY KEY,
+    CODE CHAR(50) NOT NULL,
+    TITLE CHAR(50) NOT NULL,
+    CATEGORYID INT UNSIGNED NOT NULL,
+    DURATION INT UNSIGNED NOT NULL,
+    CREATORID INT UNSIGNED NOT NULL,
+    CREATEDATE DATETIME DEFAULT NOW(),
+    FOREIGN KEY(CATEGORYID) REFERENCES CATEGORYQUESTION(CATEGORYID),
+	FOREIGN KEY(CREATORID) REFERENCES ACCOUNT(ACCOUNTID)
  );
  
- create table `ExamQuestion`(
-	ExamID int unsigned not null,
-    QuestionID int unsigned not null,
-    foreign key(ExamID) references Exam(ExamID),
-	foreign key(QuestionID) references Question(QuestionID),
-	primary key(ExamID,QuestionID)
+ CREATE TABLE `EXAMQUESTION`(
+	EXAMID INT UNSIGNED NOT NULL,
+    QUESTIONID INT UNSIGNED NOT NULL,
+    FOREIGN KEY(EXAMID) REFERENCES EXAM(EXAMID),
+	FOREIGN KEY(QUESTIONID) REFERENCES QUESTION(QUESTIONID),
+	PRIMARY KEY(EXAMID,QUESTIONID)
  );
  
- -- add data Department
- insert into Department(DepartmentName, DepartmentID) 
- values					(N'marketing', 1),
-						(N'sale', 2), 
-                        (N'bao ve', 3),
-                        (N'nhan su', 4),
-                        (N'ky thuat', 5),
-                        (N'tai chinh', 6),
-                        (N'pho giam doc', 7),
-                        (N'giam doc', 8),
-                        (N'thu ki', 9),
-                        (N'ban hang', 10);
+ -- ADD DATA DEPARTMENT
+ INSERT INTO DEPARTMENT(DEPARTMENTNAME, DEPARTMENTID) 
+ VALUES					(N'MARKETING', 1),
+						(N'SALE', 2), 
+                        (N'BAO VE', 3),
+                        (N'NHAN SU', 4),
+                        (N'KY THUAT', 5),
+                        (N'TAI CHINH', 6),
+                        (N'PHO GIAM DOC', 7),
+                        (N'GIAM DOC', 8),
+                        (N'THU KI', 9),
+                        (N'BAN HANG', 10);
 
--- add data position
-insert into position (PositionName, PositionID)
-values					( N'dev', 2),
-						( N'test', 3),
+-- ADD DATA POSITION
+INSERT INTO POSITION (POSITIONNAME, POSITIONID)
+VALUES					( N'DEV', 2),
+						( N'TEST', 3),
                         ( N'PM', 4),
-                        ( N'Scrum Master', 1);
+                        ( N'SCRUM MASTER', 1);
                         
--- add data Account
-insert into Account (AccountID, Email, Username, FullName, 
-DepartmentID, PositionID, CreateDate)
-values					(1, 'huanhoahong@gamil.com', 'huanhoahong', 'Nguyen Huan', 2, 2, '20221228'),
-						(2, 'khabanh@gmail.com', 'khabanh', 'Nguyen Van Kha', 3, 3, '20221230'),
-                        (3, 'xinmotlanthua@gmail.com', 'xinmotlanthua', 'Nguyen Van B', 4, 4, '20221229'),
-                        (4, 'vtiacademy@gmail.com', 'vtiacademy', 'VTI', 1, 1, '20220127');
+-- ADD DATA ACCOUNT
+INSERT INTO ACCOUNT (ACCOUNTID, EMAIL, USERNAME, FULLNAME, 
+DEPARTMENTID, POSITIONID, CREATEDATE)
+VALUES					(1, 'HUANHOAHONG@GAMIL.COM', 'HUANHOAHONG', 'NGUYEN HUAN', 2, 2, '20221228'),
+						(2, 'KHABANH@GMAIL.COM', 'KHABANH', 'NGUYEN VAN KHA', 3, 3, '20221230'),
+                        (3, 'XINMOTLANTHUA@GMAIL.COM', 'XINMOTLANTHUA', 'NGUYEN VAN B', 4, 4, '20221229'),
+                        (4, 'VTIACADEMY@GMAIL.COM', 'VTIACADEMY', 'VTI', 1, 1, '20220127');
 
--- add data Group
-insert into `Group` (GroupID, GroupName, CreatorID, CreateDate)
-values					(1, N'marketing group', 1, '20230103'),
-						(2, N'room_sale', 2, '20230104'),
-						(3, N'development', 3, '20230105');
--- add data GroupAccount
-insert into `GroupAccount` (GroupID, AccountID, JoinDate)
-values						(1, 1, '20230104'),
+-- ADD DATA GROUP
+INSERT INTO `GROUP` (GROUPID, GROUPNAME, CREATORID, CREATEDATE)
+VALUES					(1, N'MARKETING GROUP', 1, '20230103'),
+						(2, N'ROOM_SALE', 2, '20230104'),
+						(3, N'DEVELOPMENT', 3, '20230105');
+-- ADD DATA GROUPACCOUNT
+INSERT INTO `GROUPACCOUNT` (GROUPID, ACCOUNTID, JOINDATE)
+VALUES						(1, 1, '20230104'),
 							(2, 2, '20230104'),
                             (3, 3, '20230104');
--- add data TypeQuestion (TypeID, TypeName) 
-insert into `TypeQuestion` (TypeID, TypeName)
-values				(1, N'Essay'),
-					(2, N'Multiple-Choice');
--- add data CategoryQuestion
-insert into `CategoryQuestion` (CategoryID, CategoryName)  
-values					(1, N'SOL'),
-						(2, N'Java'),
-                        (3, N'front_end'),
-                        (4, N'advanced_java');
--- add data Question
-insert into `Question` (QuestionID, Content, CategoryID, TypeID, CreatorID, CreateDate)
-values					(1, N'the nao la SQL', 1, 1, 1, 20230104),
-						(2, N'the nao la Java', 2, 2, 2, 20230104),
-                        (3, N'the nao la front_end', 3, 2, 3, 20230104),
-                        (4, N'the nao la advanced_java', 4, 1, 4, 20230104);
+-- ADD DATA TYPEQUESTION (TYPEID, TYPENAME) 
+INSERT INTO `TYPEQUESTION` (TYPEID, TYPENAME)
+VALUES				(1, N'ESSAY'),
+					(2, N'MULTIPLE-CHOICE');
+-- ADD DATA CATEGORYQUESTION
+INSERT INTO `CATEGORYQUESTION` (CATEGORYID, CATEGORYNAME)  
+VALUES					(1, N'SOL'),
+						(2, N'JAVA'),
+                        (3, N'FRONT_END'),
+                        (4, N'ADVANCED_JAVA');
+-- ADD DATA QUESTION
+INSERT INTO `QUESTION` (QUESTIONID, CONTENT, CATEGORYID, TYPEID, CREATORID, CREATEDATE)
+VALUES					(1, N'THE NAO LA SQL', 1, 1, 1, 20230104),
+						(2, N'THE NAO LA JAVA', 2, 2, 2, 20230104),
+                        (3, N'THE NAO LA FRONT_END', 3, 2, 3, 20230104),
+                        (4, N'THE NAO LA ADVANCED_JAVA', 4, 1, 4, 20230104);
 
 
--- add data Answer
-insert into `Answer` (AnswerID, QuestionID, isCorrect, Content)
-values					(1, 1, 0, N'cau 1'), 
-						(2, 2, 1, N'cau 2'),
-                        (3, 3, 1, N'cau 3'),
-                        (4, 4, 0, N'cau 4');
+-- ADD DATA ANSWER
+INSERT INTO `ANSWER` (ANSWERID, QUESTIONID, ISCORRECT, CONTENT)
+VALUES					(1, 1, 0, N'CAU 1'), 
+						(2, 2, 1, N'CAU 2'),
+                        (3, 3, 1, N'CAU 3'),
+                        (4, 4, 0, N'CAU 4');
 
--- add data   Exam                    
-insert into `Exam` (ExamID, Code, Title, CategoryID, Duration, CreatorID, CreateDate)
-values					(1, 'SQL1', N'De thi mon SQL', 1, 60, 1, 20230104),
-						(2, 'Java1', N'De thi mon Java', 2, 60, 2, 20230104),
-                        (3, 'front_end1', N'de thi front_end basic',3, 60, 3, 20230104),
-                        (4, 'advanced_java1', N'de thi advanced_java',4, 60, 4, 20230104);
+-- ADD DATA   EXAM                    
+INSERT INTO `EXAM` (EXAMID, CODE, TITLE, CATEGORYID, DURATION, CREATORID, CREATEDATE)
+VALUES					(1, 'SQL1', N'DE THI MON SQL', 1, 60, 1, 20230104),
+						(2, 'JAVA1', N'DE THI MON JAVA', 2, 60, 2, 20230104),
+                        (3, 'FRONT_END1', N'DE THI FRONT_END BASIC',3, 60, 3, 20230104),
+                        (4, 'ADVANCED_JAVA1', N'DE THI ADVANCED_JAVA',4, 60, 4, 20230104);
 
--- add data ExamQuestion
-insert into `ExamQuestion` (ExamID, QuestionID)
-values					(1, 1),
+-- ADD DATA EXAMQUESTION
+INSERT INTO `EXAMQUESTION` (EXAMID, QUESTIONID)
+VALUES					(1, 1),
 						(2, 2);
+                        
+                        
 
 
 

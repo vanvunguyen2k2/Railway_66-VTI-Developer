@@ -1,79 +1,79 @@
--- Author: Nguyen Van Vu
--- testing_system_assignment_1
+-- AUTHOR: NGUYEN VAN VU
+-- TESTING_SYSTEM_ASSIGNMENT_1
 
-drop database if exists `testing_system_assignment_1`;
-create database `testing_system_assignment_1`;
-use `testing_system_assignment_1`;
-create table department (
-   DepartmentID int,
-   DepartmentName varchar(50)
+DROP DATABASE IF EXISTS `TESTING_SYSTEM_ASSIGNMENT_1`;
+CREATE DATABASE `TESTING_SYSTEM_ASSIGNMENT_1`;
+USE `TESTING_SYSTEM_ASSIGNMENT_1`;
+CREATE TABLE DEPARTMENT (
+   DEPARTMENTID INT,
+   DEPARTMENTNAME VARCHAR(50)
 );
 
-create table   Position (
-   PositionID int,
-   PositionName varchar(50)
+CREATE TABLE   POSITION (
+   POSITIONID INT,
+   POSITIONNAME VARCHAR(50)
 );
 
-create table  Account(
-   AccountID int,
-   Email varchar(10),
-   Username varchar(10),
-   FullName varchar(10),
-   DepartmentID int,
-   PositionID int,
-   CreateDate date
+CREATE TABLE  ACCOUNT(
+   ACCOUNTID INT,
+   EMAIL VARCHAR(10),
+   USERNAME VARCHAR(10),
+   FULLNAME VARCHAR(10),
+   DEPARTMENTID INT,
+   POSITIONID INT,
+   CREATEDATE DATE
    );
    
-   create table `Group`(
-	GroupID int,
-	GroupName varchar(50),
-	CreatorID int,
-	CreateDate date
+   CREATE TABLE `GROUP`(
+	GROUPID INT,
+	GROUPNAME VARCHAR(50),
+	CREATORID INT,
+	CREATEDATE DATE
 	);
 
-create table GroupAccount(
-	GroupID int,
-    AccountID int,
-    JoinDate date
+CREATE TABLE GROUPACCOUNT(
+	GROUPID INT,
+    ACCOUNTID INT,
+    JOINDATE DATE
 );
 
-create table  `TypeQuestion`(
-	TypeID int,
-    TypeName varchar(10)
+CREATE TABLE  `TYPEQUESTION`(
+	TYPEID INT,
+    TYPENAME VARCHAR(10)
 );
 
-create table `CategoryQuestion`(
-	CategoryID int,
-    CategoryName varchar(20)
+CREATE TABLE `CATEGORYQUESTION`(
+	CATEGORYID INT,
+    CATEGORYNAME VARCHAR(20)
 );
 
-create table Question(
-	QuestionID int,
-    Content varchar(50),
-    CategoryID int,
-    TypeID int,
-    CreatorID int,
-    CreateDate date
+CREATE TABLE QUESTION(
+	QUESTIONID INT,
+    CONTENT VARCHAR(50),
+    CATEGORYID INT,
+    TYPEID INT,
+    CREATORID INT,
+    CREATEDATE DATE
 );
 
-create table `Answer`(
-	AnswerID int,
-    Content varchar(50),
-    QuestionID int,
-    isCorrect varchar(10)
+CREATE TABLE `ANSWER`(
+	ANSWERID INT,
+    CONTENT VARCHAR(50),
+    QUESTIONID INT,
+    ISCORRECT VARCHAR(10)
 );
 
-create table `Exam`(
-	ExamID int,
-    Code varchar(20),
-    Title varchar(10),
-    CategoryID int,
-    Duration int,
-    CreatorID int,
-    CreateDate date
+CREATE TABLE `EXAM`(
+	EXAMID INT,
+    CODE VARCHAR(20),
+    TITLE VARCHAR(10),
+    CATEGORYID INT,
+    DURATION INT,
+    CREATORID INT,
+    CREATEDATE DATE
 );
 
-create table ExamQuestion(
-	ExamID int,
-    QuestionIDn int
+CREATE TABLE EXAMQUESTION(
+	EXAMID INT,
+    QUESTIONIDN INT
 );
