@@ -1,3 +1,6 @@
+-- Author: Nguyen Van Vu
+-- testing_system_assignment_1
+
 drop database if exists `testing_system_assignment_1`;
 create database `testing_system_assignment_1`;
 use `testing_system_assignment_1`;
